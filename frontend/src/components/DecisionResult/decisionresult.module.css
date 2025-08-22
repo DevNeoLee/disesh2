@@ -1,0 +1,423 @@
+
+.main {
+  /* background-color: lightgreen; */
+}
+
+.main h4 {
+    font-size: 20px;
+}
+
+.main p {
+    font-size: 18px;
+}
+
+
+.leftInside {
+    /* background-color: lightcyan; */
+    width: 540px;
+    height: 300px;
+    position: relative;
+}
+
+.graphTitle {
+    text-align: center;
+    /* background-color: lightblue; */
+    position: absolute;
+    left: 115px;
+    top: 20px;
+    width: 350px;
+}
+
+.graphTitle h2{
+    font-size: 24px;
+    color: #0065ff;
+    font-weight: bold;
+    letter-spacing: 1px;
+    line-height: 0.5;
+}
+
+.graphTitle p {
+    font-size: 20px;
+    color: #0065ff;
+}
+
+.title {
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    justify-content: space-between;
+    font-weight: 800;
+    align-items: center;
+    display: flex;
+}
+
+.title h1 {
+    font-size: 34px;
+    line-height: 34px;
+    font-weight: 800;
+}
+
+.title span {
+    margin-bottom: 50px;
+    font-size: 18px;
+    color: gray;
+    font-weight: 600;
+}
+
+.title p {
+    margin-left: "10px"    
+}
+
+.buttonContainer {
+    display: flex;
+    padding: 20px;
+
+    /* background-color: rgb(238, 238, 238); */
+    justify-content: space-between;
+}
+
+.outterButton {
+    background-color: white;
+    color: #0065ff;
+    height: 50px;
+    width: 200px;
+    border: 2px solid #0065ff;
+    border-radius: 30px;
+    margin-right: 15px;
+    font-size: 22px;
+    transition: 125ms ease-in-out;
+}
+
+.outterButton:hover {
+    background-color: #0065ff;
+    color: white;
+    height: 50px;
+    width: 200px;
+    border: 2px solid #0065ff;
+    border-radius: 30px;
+    margin-right: 15px;
+    font-size: 22px;
+    transition: 125ms ease-in-out;
+}
+
+.rightImageContainer {
+    /* background-color: lightgreen; */
+    width: 670px;
+    height: 382px;
+    margin-left: 50px;
+    position: relative;
+}
+
+.sectionLeft {
+    width: 33%;
+}
+
+.sectionMiddle {
+    width: 33%;
+    text-align: center;
+}
+
+.sectionRight {
+    width: 33%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sectionLeft span,
+.sectionMiddle span,
+.sectionRight span   {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.midSection {
+    display: flex;
+    justify-content: space-between;
+    /* height: 100%; */
+}
+
+.mid {
+    /* background-color: lightcoral; */
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    min-height: 350px;
+}
+
+.midForm {
+    /* background-color: lightgray; */
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.form {
+    /* background-color: lightgreen; */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.midPart input[type='radio'] {   
+    vertical-align: baseline;
+    padding: 2px;
+    margin: 3px;
+ }
+
+ .radio {
+    /* background-color: lightpink; */
+    width: 55px;
+    margin: 2px;
+ }
+
+ .radio label {
+    /* background-color: lightgreen; */
+    width: 30px;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 3px;
+ }
+
+ .radioBox {
+    /* width: 450px; */
+    /* background-color: lightcoral; */
+    overflow-wrap: break-word;
+    /* display: inline; */
+    height: 170px;
+    display: flex;
+    flex-wrap: wrap;
+ }
+
+ .radioBoxInner {
+    display: flex;
+    flex-wrap: wrap;
+    width: 900px;
+    padding: 3px 0px;
+    /* background-color: lightgreen; */
+ }
+
+ .radioBoxInner input[type='radio'], label{   
+    vertical-align: baseline;
+    padding: 1px;
+    margin: 2px;
+ }
+
+
+ .mainResult {
+    display: flex;
+    /* background-color: lightcoral; */
+    position: relative;
+    justify-content: space-between;
+    padding: 0;
+    /* padding: 10px; */
+}
+
+
+
+ .topbox thead {
+    background-color: gray;
+    color: white;
+    text-align: center;
+    letter-spacing: 1px;
+ }
+
+ .userContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    margin-top: 0.8rem;
+    width: 6rem;
+ }
+
+ .noticibleContainer {
+    /* display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    color: gray; */
+    padding: 0px;
+    font-size: 26px;
+ }
+
+ .resultNoticible {
+    color: black;
+    margin: auto 0.2rem;
+    font-size: 1.7rem;
+    display: flex;
+    /* justify-content: ; */
+ }
+
+
+.bottomBox thead{
+    background-color: gray;
+    color: white;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.bottomMessageBox {
+    height: 2rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+ .resultValue {
+    width: 3rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: center;
+ }
+
+ .smallText {
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+    width: 1.8rem;
+    margin-left: 0.1rem;
+ }
+
+ .smallTextProvider1 {
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+    width: 1.8rem;
+    margin: 0.4rem
+ }
+
+ .earningsContainer {
+    text-align: center;
+    margin: 0.9rem 0 0px 1rem;
+ }
+
+ .noticibleContainerProvider {
+    margin: 10px 0 0 7px;
+ }
+
+ .providerContainer {
+    margin: 12px 0 0 3px;
+    text-align: center;
+    width: 101px;
+    height: 30px;
+    font-size: 18px;
+    /* background-color: lightgreen; */
+ }
+
+ .rightResultContainer {
+    font-size: 18px;
+    margin-left: 30px;
+ }
+
+.playerContainer {
+    width: 100px;
+    font-size: 18px;
+    position: relative;
+}
+
+.playerContainer2 {
+    /* width: 300px; */
+    font-size: 18px;
+    position: relative;
+}
+
+.playerContainerRole {
+    color: #0065ff;
+    font-weight: bold;
+    margin: auto 5px;
+    position: absolute;
+    right: -12px;
+    top: 2px;
+    font-size: 15px;
+}
+
+.playerContainerRole2 {
+    color: #0065ff;
+    font-weight: bold;
+    margin: auto 5px;
+    margin-top: 5px;
+    position: absolute;
+    right: -45px;
+    top: 1px;
+    font-size: 17px;
+}
+
+.redLine {
+    width: 480px;
+    border-bottom: 2px dashed #a6182d;
+    border-bottom: 2px dashed black;
+    position: absolute;
+    left: 60px;
+    bottom: 91px ;
+    z-index: 0;
+    animation: blinker 2.5s linear infinite;
+    /* transition: 500ms ease-in-out; */
+}
+
+.redLine2 {
+    width: 480px;
+    border-bottom: 2px dashed #a6182d;
+    position: absolute;
+    left: 60px;
+    bottom: 119px ;
+    z-index: 1002;
+    animation: blinker 2.5s linear infinite;
+    /* transition: 500ms ease-in-out; */
+}
+
+.redLine3 {
+    width: 480px;
+    border-bottom: 2px dashed #ff32cc;
+    position: absolute;
+    left: 60px;
+    bottom: 119px ;
+    z-index: 1002;
+    /* animation: blinker 2.5s linear infinite; */
+    /* transition: 500ms ease-in-out; */
+}
+
+.blinker {
+    animation: blinker 2.5s linear infinite;
+}
+
+
+@keyframes blinker {
+50% {
+    opacity: 0;
+}
+}
+
+
+.hoverSuggestion {
+    position: absolute;
+    left: 0px;
+    bottom: -100px;
+    width: 350px;
+    color: rgb(128, 128, 128);
+    line-height: 24px;
+}
+
+.hoverSuggestion p {
+    font-size: 17px;
+}
+
+.timeSuggestion {
+    position: absolute;
+    left: 0px;
+    bottom: -90px;
+    width: 400px;
+    color: rgb(128, 128, 128);
+    line-height: 30px;
+}
+
+.timeSuggestion p {
+    font-size: 19px;
+}
+
