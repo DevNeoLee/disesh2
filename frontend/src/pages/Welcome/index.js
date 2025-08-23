@@ -14,7 +14,7 @@ const Welcome = () => {
     const now=3;
     const [disabled, setDisabled] = useState(true);
     const [beginTime, setBeginTime] = useState(null)
-    const { payoff, setPayoff, scope, setScope, setSession, setTimeTracker } = useAppContext();
+    const {   treat, setTreat, setSession, setTimeTracker } = useAppContext();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const navigate = useNavigate()
@@ -28,21 +28,16 @@ const Welcome = () => {
   }, [setTimeTracker])
 
     useEffect(() => {
-        if (!['c', 'i'].includes(queryParams.get('scope'))) {
-          console.log('not found scope.')
+        if (!['const', 'i'].includes(queryParams.get('treat'))) {
+          console.log('not found treat.')
           navigate('/notfound')
         } else {
-          setScope(queryParams.get('scope'))
+          setTreat(queryParams.get('treat'))
         }
     
-        if (!['e', 'f', 's'].includes(queryParams.get('payoff'))) {
-          console.log('not found payoff.')
-          navigate('/notfound')
-        } else {
-          setPayoff(queryParams.get('payoff'))
-        }
 
-    }, [scope, payoff])
+
+    }, [treat])
 
     const handleChange = () => {
         setDisabled(false);
@@ -61,16 +56,16 @@ const Welcome = () => {
         .catch(err => console.log(err))
     }
 
-    const handleProceed = async (scope, payoff) => {
+    const handleProceed = async (treat) => {
         setProceeding(true)
-        await createSessionDB(scope, payoff)
+        await createSessionDB(treat)
             .then(async data => {
                 console.log('Created Session succesfully in DB: ', data)
                 setSession(data);
                 await updateSessionWelcome(data.sessionStartTime, data._id)
                 setTimeTracker(prev => ({...prev, welcome: {...prev.welcome, endTime: data.sessionStartTime}}))
                 setProceeding(false)
-                navigate(`/instruction/?scope=${scope}&payoff=${payoff}&id=${data?._id}`)
+                navigate(`/instruction/?treat=${treat}&id=${data?._id}`)
             })
             .catch(error => {
                 console.log('error: ', error)
@@ -116,7 +111,7 @@ const Welcome = () => {
                     <div className={styles.butttonContainer}>
                         <button className={styles.button} 
                             disabled={disabled}
-                            onClick={() => handleProceed(scope, payoff)}
+                            onClick={() => handleProceed(treat)}
                         >
                             { !proceeding ? "Next" : "Wait..." }
                         </button>

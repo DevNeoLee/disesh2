@@ -39,7 +39,7 @@ export default function Quizzes() {
       
     const scrollBox = useRef();
 
-    const { scope, payoff, setScope, setPayoff, session, setSession, timeTracker, setTimeTracker } = useAppContext();
+    const { treat,  setTreat,  session, setSession, timeTracker, setTimeTracker } = useAppContext();
 
     const updateSessionToMongoDB = async () => {
         return await axios
@@ -54,21 +54,16 @@ export default function Quizzes() {
     }
 
     useEffect(() => {
-        if (!['c', 'i'].includes(queryParams.get('scope'))) {
-          console.log('not found scope.')
+        if (!['const', 'i'].includes(queryParams.get('treat'))) {
+          console.log('not found treat.')
           navigate('/notfound')
         } else {
-          setScope(queryParams.get('scope'))
+          setTreat(queryParams.get('treat'))
         }
     
-        if (!['e', 'f', 's'].includes(queryParams.get('payoff'))) {
-          console.log('not found payoff.')
-          navigate('/notfound')
-        } else {
-          setPayoff(queryParams.get('payoff'))
-        }
+
     
-      }, [scope, payoff])
+      }, [treat])
 
 
     useEffect(() => {
@@ -186,7 +181,7 @@ export default function Quizzes() {
                         <button style={{ visibility: "hidden"}}>
                             placeholder
                         </button>
-                        <Link to={`/game/?scope=${scope}&payoff=${payoff}&id=${session?._id}`}>
+                        <Link to={`/game/?treat=${treat}&id=${session?._id}`}>
                             <button className={styles.buttonStart}>
                                 Start                  
                             </button>

@@ -13,8 +13,8 @@ export default function SessionsAll({ data }) {
                 data?.map((session, id) => (
                     <div key={id} style={{ margin: "0.5rem", padding: "1rem", border: "1px solid brown", width: '550px'}}>
                          <p>mTurkNumber: {session.mTurkNumber}</p>
-                         <p>Scope: {session.scope}</p>
-                         <p>Payoff: {session.payoff}</p>
+                         <p>Scope: {session.treat}</p>
+                   
                          <p>Time that Session Created(Eastern): {new Date(session?.sessionStartTime).toLocaleString('en-US', options)}</p>
                          <p>Survey( {session.survey.length} ): </p>
                          <div>

@@ -20,7 +20,7 @@ export default function SecondInstructionStage({roundTimer, participantsReady2, 
       {
         isInstruction 
         ?
-        <Instruction2 setIsInstruction={setIsInstruction} scope={gameState.scope} payoff={gameState.payoff}/>
+        <Instruction2 setIsInstruction={setIsInstruction} treat={gameState.treat} />
         :
         isQuizDone && !participantsReady2
         ?

@@ -18,7 +18,7 @@ import QuizSolution2 from "./QuizSolution2";
 import { useAppContext } from "../AppContext";
 
 export default function Quizzes2({setQuizSubmitted, setIsQuizDone, socket, gameState}) {
-    const { scope, payoff, setScope, setPayoff, session, setSession, timeTracker, setTimeTracker } = useAppContext();
+    const { treat,  setTreat,  session, setSession, timeTracker, setTimeTracker } = useAppContext();
 
     const now=60;
     const [answer, setAnswer] = useState('')
@@ -58,19 +58,14 @@ export default function Quizzes2({setQuizSubmitted, setIsQuizDone, socket, gameS
     }
 
     useEffect(() => {
-        if (!scope) {
-            setScope(queryParams.get('scope'))
+        if (!treat) {
+            setTreat(queryParams.get('treat'))
         }
     },
-    [scope])
+    [treat])
 
 
-    useEffect(() => {
-        if (!payoff) {
-            setPayoff(queryParams.get('payoff'))
-        }
-    },
-    [payoff])
+
 
     useEffect(() => {
         scrollBox.current.scrollTo({
@@ -125,30 +120,30 @@ export default function Quizzes2({setQuizSubmitted, setIsQuizDone, socket, gameS
             ...ele, 
             answer: {
                 answer: 
-                    payoff == "e" && id == 2
+                    id == 2
                     ? 
                     ele.answer
                     :
-                    payoff == "f" && id == 2
+                    id == 2
                     ? 
                     ele.answerB
                     :
-                    payoff == "s" && id == 2
+                    id == 2
                     ? 
                     ele.answerC
                     :
                     ele.answer
                     ,  
                 isCorrect: 
-                        payoff == "e" && id == 2
+                        id == 2
                         ? 
                         ele.answer == ALPHABET[answers[id + 1] - 1]
                         :
-                        payoff == "f" && id == 2
+                        id == 2
                         ? 
                         ele.answerB == ALPHABET[answers[id + 1] - 1]
                         :
-                        payoff == "s" && id == 2
+                        id == 2
                         ? 
                         ele.answerC == ALPHABET[answers[id + 1] - 1]
                         :
@@ -160,15 +155,15 @@ export default function Quizzes2({setQuizSubmitted, setIsQuizDone, socket, gameS
                 correct: ele.comment, 
                 hint: ele.hint, 
                 isCorrect: 
-                payoff == "e" && id == 2
+                id == 2
                 ? 
                 ele.answer == ALPHABET[answers[id + 1] - 1]
                 :
-                payoff == "f" && id == 2
+                id == 2
                 ? 
                 ele.answerB == ALPHABET[answers[id + 1] - 1]
                 :
-                payoff == "s" && id == 2
+                id == 2
                 ? 
                 ele.answerC == ALPHABET[answers[id + 1] - 1]
                 :
@@ -205,14 +200,14 @@ export default function Quizzes2({setQuizSubmitted, setIsQuizDone, socket, gameS
                                         <div style={{fontSize: "1.3rem", fontWeight: "600"}}>Question <span style={{ color: "#45838B", fontSize: "1.4rem"}}># {idx + 1}</span></div>
                                         <Form.Label htmlFor={`radio`} style={{ fontWeight: "600", fontSize: "1.3rem"}}> 
                                         {
-                                            idx == 2 && scope == 'i' ?
+                                            idx == 2 && treat == 'i' ?
                                             question.questionI 
                                             :
                                             question.question
                                         }
                                         </Form.Label>
                                         {
-                                            idx == 1 && scope == 'i' ?
+                                            idx == 1 && treat == 'i' ?
                                             question?.choicesB?.map((choice, i) => (
                                                 <Radio label={choice} key={i + choice} value={i + 1} answer={answer} name={idx + 1} handleChange={handleChange} required={"required"} />
                                             ))

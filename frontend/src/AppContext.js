@@ -3,8 +3,7 @@ import { createContext, useState, useContext, useEffect } from 'react';
 const Context = createContext();
 
 export const AppProvider = ({ children }) => {
-    const [scope, setScope] = useState('')
-    const [payoff, setPayoff] = useState('')
+    const [treat, setTreat] = useState('')
     const [session, setSession] = useState({})
 
     // const [totalEanrningFromExercise, setTotalEarningFromExercise] = useState(0)
@@ -15,10 +14,8 @@ export const AppProvider = ({ children }) => {
     const [timeTracker, setTimeTracker] = useState({})
 
     const values = {
-      scope,
-      payoff,
-      setScope,
-      setPayoff,
+      treat,
+      setTreat,
       session,
       setSession,
       totalTokens, 

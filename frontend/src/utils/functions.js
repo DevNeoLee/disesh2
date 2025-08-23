@@ -2,14 +2,14 @@ import HOST from "../utils/routes";
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-export const createSessionDB = async (scope, payoff) => {
+export const createSessionDB = async (treat) => {
     return await fetch(HOST + 'api/session', {  
         headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
         },
         method: "POST", 
-        body: JSON.stringify({scope: scope, payoff: payoff}) })
+        body: JSON.stringify({treat: treat}) })
         .then(res => res.json())
         .then(data => {
             console.log('data createSessionDB: ', data)

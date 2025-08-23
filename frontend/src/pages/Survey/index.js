@@ -17,7 +17,7 @@ import axios from 'axios';
 import { useAppContext } from '../../AppContext';
 
 export default function Survey() {
-    const {payoff, scope, setScope, setPayoff, session, setSession} = useAppContext();
+    const { treat, setTreat,  session, setSession} = useAppContext();
     const now=98;
     const [answer, setAnswer] = useState('')
     const [answers, setAnswers] = useState([{id: '1', answer: ""}, {id: '2', answer: ""}, {id: '3', answer: ""}, {id: '4', answer: ""}, {id: '5', answer: ""}, {id: '6', answer: ""}, {id: '7', answer: ""}, {id: '8', answer: ""}, {id: '9', answer: ""}, {id: '10', answer: ""}, {id: '11', answer: ""}, {id: '12', answer: ""} ])
@@ -56,18 +56,13 @@ export default function Survey() {
       }
 
     useEffect(() => {
-        if (!scope) {
-            setScope(queryParams.get('scope'))
+        if (!treat) {
+            setTreat(queryParams.get('treat'))
         }
     },
-    [scope])
+    [treat])
 
-    useEffect(() => {
-        if (!payoff) {
-            setPayoff(queryParams.get('payoff'))
-        }
-    },
-    [payoff])
+
 
     useEffect(() => {
         if (!done) {

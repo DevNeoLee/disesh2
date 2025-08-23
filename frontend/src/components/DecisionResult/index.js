@@ -19,7 +19,7 @@ import PracticeNotification from '../PracticeNotification';
 import { ChevronRight } from 'react-bootstrap-icons';
 
 export const FarmersDecision = () => {
-    const {payoff, scope, session, setSession, setScope, setPayoff} = useAppContext();
+    const { treat, session, setSession, setTreat} = useAppContext();
     const { role, gameState, setGameState, choice, setChoice, socket, currentRound, choiceList} = useContext(GameContext);
 
     const handleRowClick = (e, index) => {
@@ -136,7 +136,7 @@ export const FarmersDecision = () => {
 }
 
 export const Result = ({currentWater, showPracticeEndNotification, practiceEndDuration}) => {
-    const {payoff, scope, session, setSession, setScope, setPayoff} = useAppContext();
+    const { treat, session, setSession, setTreat} = useAppContext();
     const { role, gameState, setGameState, choice, setChoice, choiceList, totalGroupWater, setTotalGroupWater, currentRound, extraScores, showFinalResultTable, setShowFinalResultTable} = useContext(GameContext);
     const [tokensAllocated, setTokensAllocated] = useState([{user1: null}, {user2: null}, {user3: null}, {user4: null}, {provider: null}])
 
@@ -463,7 +463,7 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
 }
 
 export const FinalResult = ({currentWater, showPracticeEndNotification, practiceEndDuration, finalScores}) => {
-    const {payoff, scope, session, setSession, setScope, setPayoff} = useAppContext();
+    const { treat, session, setSession, setTreat} = useAppContext();
     const { role, gameState, setGameState, choice, setChoice, choiceList, totalGroupWater, extraScores, setTotalGroupWater, currentRound, showFinalResultTable, setShowFinalResultTable} = useContext(GameContext);
     const [tokensAllocated, setTokensAllocated] = useState([{user1: null}, {user2: null}, {user3: null}, {user4: null}, {provider: null}])
 

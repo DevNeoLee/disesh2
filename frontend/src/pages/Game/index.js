@@ -18,7 +18,7 @@ import { createSessionDB } from '../../utils/functions';
 export const GameContext = createContext()
 
 const Game = () => {
-    const {payoff, scope, session, setSession, setScope, setPayoff, mTurkcode, setMTurkcode} = useAppContext();
+    const { treat, session, setSession, setTreat,  mTurkcode, setMTurkcode} = useAppContext();
     
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -47,7 +47,7 @@ const Game = () => {
     // useEffect (() => {
     //     const sessionFind = async () => {
     //         if (!sessionDataStorage) {
-    //             const sessionCreated = await createSessionDB(queryParams.get('scope') || scope, queryParams.get('payoff') || payoff);
+    //             const sessionCreated = await createSessionDB(queryParams.get('treat') || treat);
     //             console.log('session: ', sessionCreated)
     //             setSession(sessionCreated)
     //         } else {
@@ -62,30 +62,23 @@ const Game = () => {
  
 
     useEffect(() => {
-        if (!['c', 'i'].includes(queryParams.get('scope'))) {
-          console.log('not found scope.')
+        if (!['const', 'i'].includes(queryParams.get('treat'))) {
+          console.log('not found treat.')
           navigate('/notfound')
         } else {
-          setScope(queryParams.get('scope'))
+          setTreat(queryParams.get('treat'))
         }
     
-        if (!['e', 'f', 's'].includes(queryParams.get('payoff'))) {
-          console.log('not found payoff.')
-          navigate('/notfound')
-        } else {
-          setPayoff(queryParams.get('payoff'))
-        }
-
-        if (scope && payoff) {
+        if (treat) {
             setGameState(prev =>
                 ({
-                    ...prev, scope, payoff
+                    ...prev, treat
                 })
             )
             connectToSocket()
         } 
     
-      }, [scope, payoff])
+      }, [treat])
 
 
     const PLAYERSLIST = [{name: "Farmer1", label: "Farmer 1"}, {name: "Farmer2", label: "Farmer 2"}, {name: "Farmer3", label: "Farmer 3"}, {name: "Farmer4", label: "Farmer 4"}, {name: "Farmer5", label: "Farmer5"}]
@@ -120,8 +113,8 @@ const Game = () => {
         totalRounds: 22, 
         isDepletedFirstPart: false,
         isDepletedSecondPart: false,
-        scope,
-        payoff,
+        treat,
+        
         now: 10,
     })
     const [choice, setChoice] = useState('')
@@ -208,10 +201,10 @@ const Game = () => {
     const connectToSocket = () => {
         const socket = new SocketSingleton().getInstance();
         setSocket(socket);
-        if (!scope || !payoff) {
+        if (!treat ) {
             navigate('/notfound')
         } else {
-            socket?.emit("createOrJoinRoom", {scope, payoff})/////////////////////// start a begin event
+            socket?.emit("createOrJoinRoom", {treat})/////////////////////// start a begin event
         }
 
         socket.on('joinedRoom', ({roomId, roomName, size}) => {
@@ -536,7 +529,7 @@ const Game = () => {
     return (
         <GameContext.Provider value={{ role, gameState, setGameState, choice, setChoice, socket, currentRound, choiceList, setChoiceList, totalGroupWater, setTotalGroupWater, extraScores, showFinalResultTable, setShowFinalResultTable, finalScores, showGameStop, setShowGameStop, gameStopDuration, waitingRoom2Time, notifyParticipantNotResponded, notifyParticipantLeft}}>
             {/* <Round roundTimer={roundTimer} roundEnd={roundEnd} currentRound={currentRound} currentWater={currentWater} now={now} setNow={setNow} count={count} resultDuration={resultDuration} /> */}
-            {/* <SecondInstructionStage roundTimer={roundTimer} participantsReady2={participantsReady2} completedUser2={completedUser2} scope={gameState.scope} payoff={gameState.payoff}/>  */}
+            {/* <SecondInstructionStage roundTimer={roundTimer} participantsReady2={participantsReady2} completedUser2={completedUser2} treat={gameState.treat} />  */}
         
             {
             gameStart && !participantsReady && !isSecondInstructionStage ? 

@@ -11,12 +11,10 @@ const Home = () => {
   const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate()
 
-  const [scope, setScope] = useState('')
-  const [payoff, setPayoff] = useState('')
-
+  const [treat, setTreat] = useState('')
 
   const openPopUp = () => {
-    const url = `${HOST}welcome/?scope=${scope}&payoff=${payoff}`
+    const url = `${HOST}welcome/?treat=${treat}`
     const options = 'height=10000,width=10000,toolbar=no,location=no,menubar=no,titlebar=no';
      window.open(url, '_self', options);
 
@@ -24,21 +22,14 @@ const Home = () => {
   }
 
   useEffect(() => {
-    if (!['c', 'i'].includes(queryParams.get('scope'))) {
-      console.log('not found scope.')
+    if (!['const', 'i'].includes(queryParams.get('treat'))) {
+      console.log('not found treat.')
       navigate('/notfound')
     } else {
-      setScope(queryParams.get('scope'))
+      setTreat(queryParams.get('treat'))
     }
 
-    if (!['e', 'f', 's'].includes(queryParams.get('payoff'))) {
-      console.log('not found payoff.')
-      navigate('/notfound')
-    } else {
-      setPayoff(queryParams.get('payoff'))
-    }
-
-  }, [scope, payoff])
+  }, [treat])
 
  
 
@@ -48,7 +39,7 @@ const Home = () => {
     <div className={styles.container}>
         <div className={styles.box}>
           <div className={styles.title}>
-            <h1 style={{ fontSize: "2rem", color: "#0065ff", marginBottom: "5rem", letterSpacing: "1px", lineHeight: "1.3"}}>DECISION-MAKING EXERCISES ON USING GROUNDWATER TO GROW CROP</h1>
+            <h1 style={{ fontSize: "2rem", color: "#0065ff", marginBottom: "5rem", letterSpacing: "1px", lineHeight: "1.3"}}>DECISION-MAKING EXERCISES ON USING GROUNDWATER TO GROW CROP(H2)</h1>
               <p style={{ fontSize: "1.4rem"}}>Before starting the exercises, please note the following:</p>
           </div>
           <div className={styles.paragraph}>
@@ -58,11 +49,11 @@ const Home = () => {
               <li>To begin, click the start button below to open a new window. Maximize this new window to continue with the exercises </li>
           </div>
           <div className={styles.butttonContainer}>
-            {/* <button className={styles.button} onClick={() => openPopUp(`${HOST}welcome/?scope=${scope}&payoff=${payoff}`)}> */}
+            {/* <button className={styles.button} onClick={() => openPopUp(`${HOST}welcome/?treat=${treat}`)}> */}
             <button className={styles.button} onClick={openPopUp}>
               {/* <Link 
-              to={`/welcome/?scope=${scope}&payoff=${payoff}`}> */}
-              {/* onClick={() => openPopUp(`${HOST}welcome/?scope=${scope}&payoff=${payoff}`)} */}
+              to={`/welcome/?treat=${treat}`}> */}
+              {/* onClick={() => openPopUp(`${HOST}welcome/?treat=${treat}`)} */}
                 Start
               {/* </Link> */}
             </button>

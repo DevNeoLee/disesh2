@@ -74,11 +74,11 @@ const MAX_PARTICIPANTS_PER_ROOM = 5;
 
 const rounds = ['Practice A', 'Practice B', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T']
 
-function getAvailableRoomIndex(scope, payoff) {
-    return rooms.findIndex((room) => room.participants?.length < MAX_PARTICIPANTS_PER_ROOM && !room.inGame && (room.scope === scope && room.payoff === payoff));
+function getAvailableRoomIndex(treat) {
+    return rooms.findIndex((room) => room.participants?.length < MAX_PARTICIPANTS_PER_ROOM && !room.inGame && (room.treat === treat));
 }
   
-async function createNewRoom(scope, payoff) {
+async function createNewRoom(treat) {
     const newRoom = {
         roomName: "",
         state: 'waiting',
@@ -113,8 +113,8 @@ async function createNewRoom(scope, payoff) {
         isSecondInstructionStage: false,
         isDepletedFirstPart: false,
         isDepletedSecondPart: false,
-        scope,
-        payoff,
+        treat,
+        
         now: 10,
     };
 
@@ -738,11 +738,11 @@ io.on("connection", socket => {
     // io.emit("client_count", "New user connected, current count: ", io.engine.clientsCount)
     
     //join room event 
-    socket.on('createOrJoinRoom', async ({scope, payoff}) => {
+    socket.on('createOrJoinRoom', async ({treat}) => {
         // console.log('rooms createOrJoinRoom: ', rooms)
         console.log('++ ++ createOrJoinRoom')
 
-        const roomIndex = getAvailableRoomIndex(scope, payoff);
+        const roomIndex = getAvailableRoomIndex(treat);
         const room = rooms[roomIndex];
         //if the room to join is available
         if (roomIndex !== -1) {
@@ -774,7 +774,7 @@ io.on("connection", socket => {
             }
         //if the room to join is NOT available, create one
         } else {
-          const newRoom = await createNewRoom(scope, payoff);
+          const newRoom = await createNewRoom(treat);
 
           socket.join(newRoom.roomName);
           const roleSelected = getRole(newRoom);
@@ -832,8 +832,8 @@ io.on("connection", socket => {
 
         const allFiveEnteredResults = participants.filter(participant => participant.results?.[roundIndex])
         
-        //'scope' and 'payoff' types will direct how much ExtraScore could be given out
-        const calculateExtraScore = (sortedResult, scope, payoff, previousWater, unsortedParticipants, totalGroupWaterUsed) => {
+        //'treat' types will direct how much ExtraScore could be given out
+        const calculateExtraScore = (sortedResult, treat,  previousWater, unsortedParticipants, totalGroupWaterUsed) => {
             const sortedParticipants = [];
             unsortedParticipants.forEach(ele => {
                 if (ele.role == 'Farmer1') {
@@ -876,31 +876,10 @@ io.on("connection", socket => {
 
             const waterConsuptionTotal = waterConsumptions.reduce((acc, consumption) => consumption + acc)
             
-            if ((scope == 'c' && currentWater >= 25) || (scope == 'i' && waterConsumptions.every(consumption => consumption <= 16))){
-                switch(payoff) {
-                    case 'e':
-                        const payoffAmount = Math.round(currentWater * 3 / 5);
-                        sortedResult.forEach(player => player.extraScore = payoffAmount)
-                        
-                        return sortedResult;
-                    
-                    case 'f':
-                        sortedResult.forEach((player, playerId) => player.extraScore = Math.round(currentWater * cropAQuantities[playerId] / cropAQuantityTotal * 3))
-                        
-                        return sortedResult;
-    
-                    case 's':
-                        sortedResult.forEach((player, playerId) => player.extraScore = Math.round(currentWater * waterConsumptions[playerId] / waterConsuptionTotal * 3))
-                        
-                        return sortedResult;
-                } 
-            } else {
-                return sortedResult;
-            }
         }
 
         const getUpdatedResultWithExtraScore = (sortedResult, room, totalGroupWater) => {
-            const updatedSortedResult = calculateExtraScore(sortedResult, room.scope, room.payoff, room.currentWater, room.participants, totalGroupWater);
+            const updatedSortedResult = calculateExtraScore(sortedResult, room.treat, room. room.currentWater, room.participants, totalGroupWater);
             return updatedSortedResult;
         }
 

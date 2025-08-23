@@ -20,8 +20,7 @@ const SessionSchema = new Schema({
   roomName: String,
   mTurkNumber: String,
   lastActivity: String,
-  scope: String,
-  payoff: String,
+  treat: String,
   socket_id: String,
   survey: [],
   timeTracker: {}

@@ -12,17 +12,11 @@ import { format } from 'date-fns';
 
 export default function QuizSolution2({questions, yourScore}) {
   const [pass, setPass] = useState(questions.length == yourScore);
-  const {payoff, scope, setScope, setPayoff} = useAppContext();
+  const { treat, setTreat} = useAppContext();
 
   useEffect( () => {
     setPass(questions.length == yourScore)
   }, [questions]);
-
-  
-
-  // useEffect( () => {
-  //   console.log('payoff on QuizSolution2: ', payoff)
-  // }, [payoff]);
 
   const filteredItem = ["choices", "hint", "comment", "question"];
   const columnOrder = [ "id", "yourAnswer", "answer", , "comment", "hint", "question", "review"];
@@ -91,7 +85,7 @@ export default function QuizSolution2({questions, yourScore}) {
                     backgroundColor: question["answer"]?.["isCorrect"] ? "#b7e597" : "#ffe7aa",
                   }} data-label="">
                     {
-                      idx == 1 && scope == 'i' 
+                      idx == 1 && treat == 'i' 
                       ?
                       question.yourAnswer
                       :
@@ -119,19 +113,19 @@ export default function QuizSolution2({questions, yourScore}) {
                     backgroundColor: question["answer"]?.["isCorrect"] ? "#b7e597" : "#ffe7aa",
                   }} data-label="">
                     {  
-                      (idx == 1 && scope == 'i') || (idx == 2 && scope == 'i' && payoff == 'e') ?
+                      (idx == 1 && treat == 'i') || (idx == 2 && treat == 'i') ?
                       question?.hintB
                       :
-                      (idx == 2 && scope == 'i' && payoff == 's') ?
+                      (idx == 2 && treat == 'i') ?
                       question?.hintIS
                       :
-                      (idx == 2 && scope == 'i' && payoff == 'f') ?
+                      (idx == 2 && treat == 'i') ?
                       question?.hintIF
                       :
-                      (idx == 2 && payoff == 'f') ?
+                      (idx == 2) ?
                       question?.hintF
                       :
-                      (idx == 2 && payoff == 's') ?
+                      (idx == 2) ?
                       question?.hintS
                       :
                       question?.hint

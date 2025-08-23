@@ -241,7 +241,7 @@ const Stat = () => {
 
               csvArray.push({
                 date: `${year}-${month}-${day}`,
-                type: `${game.scope}${game.payoff}`,
+                type: `${game.treat}`,
                 "MTurk Code": participant.mTurkcode ? participant.mTurkcode : "",
                 // "Quiz 1": participant.preQuiz.length > 0 ? 1 : 0,
                 "Quiz 1": 1,
@@ -264,7 +264,7 @@ const Stat = () => {
           if (session.mTurkNumber && !csvArray.find(ele => ele["MTurk Code"] == session.mTurkNumber )) {
             const mappedSession = {
               date: `${year}-${month}-${day}`,
-              type: `${session.scope}${session.payoff}`,
+              type: `${session.treat}`,
               "MTurk Code": session.mTurkNumber ? session.mTurkNumber : "",
               "Quiz 1": session.preQuiz.length > 0 ? 1 : 0,
               "Quiz 2": 0,

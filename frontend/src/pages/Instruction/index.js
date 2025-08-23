@@ -13,7 +13,7 @@ import HOST from '../../utils/routes.js';
 const Instruction = () => {
     const [beginTime, setBeginTime] = useState(null)
     const [clickTabArray, setClickTabArray] = useState([])
-    const {payoff, scope, session, setTimeTracker, timeTracker} = useAppContext();
+    const { treat, session, setTimeTracker, timeTracker} = useAppContext();
     const now=6;
     const videoRef = useRef(null);
 
@@ -111,7 +111,7 @@ const Instruction = () => {
                     <li>  The quiz can be attempted multiple times until you answer all questions correctly.  </li>
                     <li style={{ color: "red"}}>  You will receive an extra earning of $1 for completing the quiz  </li>
                 </ul>
-                <Link to={`/prequiz/?scope=${scope}&payoff=${payoff}&id=${session?._id}`}>
+                <Link to={`/prequiz/?treat=${treat}&id=${session?._id}`}>
                     <button className={styles.button} onClick={handleClick}>
                         Begin Quiz 1
                     </button>
