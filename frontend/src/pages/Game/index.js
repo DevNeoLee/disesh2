@@ -146,7 +146,6 @@ const Game = () => {
     const [practiceEndDuration, setPracticeEndDuration] = useState(0)
     const [gameStopDuration, setGameStopDuration] = useState(40)
 
-    const [extraScores, setExtraScores] = useState([]);
     const [finalScores, setFinalScores] = useState([]);
 
     const [showGameStop, setShowGameStop] = useState(false);
@@ -263,8 +262,6 @@ const Game = () => {
         socket.on('secondInstructionStage', (room) => {
             setIsSecondInstructionState(true)
             setGameState(room)
-            //extraScores 정리 
-            setExtraScores([])    
 
         })
 
@@ -310,18 +307,14 @@ const Game = () => {
         })
 
         socket.on('totalGroupResultArrived', ({totalGroupWater, result}) => {
-            // console.log('totalGroupWater: result: ', totalGroupWater, result )
+            console.log('totalGroupWater: result: ', totalGroupWater, result )
 
             setTotalGroupWater(totalGroupWater)
 
-            const finalScores = result.map(ele => ele.results[ele.results.length - 1].totalScore);
+            const finalScores = result?.map(ele => ele.results[ele.results.length - 1].totalScore);
 
-            const extraScores = result.map((ele, id) => 
-                ele.extraScore
-            )
 
             setFinalScores(finalScores)         
-            setExtraScores(extraScores)    
         }) 
 
         socket.on('gameEnded', (room) => {
@@ -528,17 +521,17 @@ const Game = () => {
     // }, [socket, gameState, role])
 
     return (
-        <GameContext.Provider value={{ role, gameState, setGameState, choice, setChoice, socket, currentRound, choiceList, setChoiceList, totalGroupWater, setTotalGroupWater, extraScores, showFinalResultTable, setShowFinalResultTable, finalScores, showGameStop, setShowGameStop, gameStopDuration, waitingRoom2Time, notifyParticipantNotResponded, notifyParticipantLeft}}>
+        <GameContext.Provider value={{ role, gameState, setGameState, choice, setChoice, socket, currentRound, choiceList, setChoiceList, totalGroupWater, setTotalGroupWater, showFinalResultTable, setShowFinalResultTable, finalScores, showGameStop, setShowGameStop, gameStopDuration, waitingRoom2Time, notifyParticipantNotResponded, notifyParticipantLeft}}>
             {/* <Round roundTimer={roundTimer} roundEnd={roundEnd} currentRound={currentRound} currentWater={currentWater} count={count} resultDuration={resultDuration} /> */}
             {/* <SecondInstructionStage roundTimer={roundTimer} participantsReady2={participantsReady2} completedUser2={completedUser2} treat={gameState.treat} />  */}
         
             {
-            gameStart && !participantsReady && !isSecondInstructionStage ? 
-            <ParticipantsReady />
-            :   
-            participantsReady && roleReady && !isSecondInstructionStage ?
+                gameStart && !participantsReady && !isSecondInstructionStage ? 
+                <ParticipantsReady />
+                :   
+                participantsReady && roleReady && !isSecondInstructionStage ?
                 <div className={styles.container}>
-                    <RoleSelection role={role} />
+                <RoleSelection role={role} />
                 </div>
                 :
                 !roleReady && !isSecondInstructionStage ?

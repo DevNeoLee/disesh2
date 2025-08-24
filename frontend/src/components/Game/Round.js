@@ -17,8 +17,7 @@ const Round = ({ roundTimer, roundEnd, currentRound, currentWater, resultDuratio
     const [myScore, setMyScore] = useState(0);
 
     const {setTotalTokens} = useAppContext();
-    const { notifyParticipantNotResponded, role, gameState, session, setGameState, choice, setChoice, socket, setTotalGroupWater, scores, setChoiceList, choiceList, extraScores, showFinalResultTable, finalScores, showGameStop} = useContext(GameContext);
-    const myExtraScore = extraScores[Number(role.slice(6,7)) - 1];
+    const { notifyParticipantNotResponded, role, gameState, session, setGameState, choice, setChoice, socket, setTotalGroupWater, scores, setChoiceList, choiceList, showFinalResultTable, finalScores, showGameStop} = useContext(GameContext);
 
     useEffect(() => {
         if (choice) {
@@ -68,23 +67,17 @@ const Round = ({ roundTimer, roundEnd, currentRound, currentWater, resultDuratio
     }
 
 
-        const getMyFinalTokens = (finalScores, extraScores) => {
-            // console.log('finalScores, extraScores: getMyFinalTokens:', finalScores, extraScores)
-            // console.log('role: getMyFinalTokens: ', role)
+        const getMyFinalTokens = (finalScores) => {
+            console.log('finalScores: ', finalScores)
             const myFinalScore = finalScores[Number(role.slice(6,7)) - 1];
-            const myExtraScore = extraScores[Number(role.slice(6,7)) - 1];
-    
-            // console.log('myFinalScore, myExtraScore: getMyFinalTokens:', myFinalScore, myExtraScore)
-    
-            return myExtraScore ? myFinalScore + myExtraScore : myFinalScore;
+            return myFinalScore;
         }
 
         useEffect(() => {
-            // console.log('finalScores, extraScores: ', finalScores, extraScores)
 
-            const myTokensQuantity = getMyFinalTokens(finalScores, extraScores)
+            const myTokensQuantity = getMyFinalTokens(finalScores)
             setTotalTokens(myTokensQuantity)
-        }, [finalScores, extraScores])
+        }, [finalScores])
 
     return (
         <div className={styles.container}>

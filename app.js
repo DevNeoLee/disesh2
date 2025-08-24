@@ -901,7 +901,7 @@ io.on("connection", socket => {
         }
 
         const getUpdatedResultWithExtraScore = (sortedResult, room, totalGroupWater) => {
-            const updatedSortedResult = calculateExtraScore(sortedResult, room.treat, room. room.currentWater, room.participants, totalGroupWater);
+            const updatedSortedResult = calculateExtraScore(sortedResult, room.treat, room.currentWater, room.participants, totalGroupWater);
             return updatedSortedResult;
         }
 
@@ -911,10 +911,11 @@ io.on("connection", socket => {
             let updatedSortedResult;
             //특정 round 일 경우에만 extraScore를 받는다. 
             if (roundIndex == 21) {
-                // console.log('1 gogo')
+            //     console.log('1 gogo')
                 roomFound.gameCompleted = true;
                 roomFound.gameEndTime = new Date();
-                updatedSortedResult = getUpdatedResultWithExtraScore(sortedResult, roomFound, totalGroupWater)
+            //     updatedSortedResult = getUpdatedResultWithExtraScore(sortedResult, roomFound, totalGroupWater)
+                   updatedSortedResult = sortedResult;
             } else {
                 updatedSortedResult = sortedResult;
             }
