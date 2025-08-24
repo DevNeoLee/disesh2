@@ -74,13 +74,13 @@ const Round = ({ roundTimer, roundEnd, currentRound, currentWater, resultDuratio
             const myFinalScore = finalScores[Number(role.slice(6,7)) - 1];
             const myExtraScore = extraScores[Number(role.slice(6,7)) - 1];
     
-            console.log('myFinalScore, myExtraScore: getMyFinalTokens:', myFinalScore, myExtraScore)
+            // console.log('myFinalScore, myExtraScore: getMyFinalTokens:', myFinalScore, myExtraScore)
     
             return myExtraScore ? myFinalScore + myExtraScore : myFinalScore;
         }
 
         useEffect(() => {
-            console.log('finalScores, extraScores: ', finalScores, extraScores)
+            // console.log('finalScores, extraScores: ', finalScores, extraScores)
 
             const myTokensQuantity = getMyFinalTokens(finalScores, extraScores)
             setTotalTokens(myTokensQuantity)

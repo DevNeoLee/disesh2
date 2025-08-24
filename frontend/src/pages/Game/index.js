@@ -190,13 +190,13 @@ const Game = () => {
         const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
         const day = String(today.getDate()).padStart(2, '0');
         
-        console.log(`MturkID: ${year}${month}${day}_${socketid}_b`)
+        // console.log(`MturkID: ${year}${month}${day}_${socketid}_b`)
         return `${year}${month}${day}_${socketid}_b`;
     }
 
     const updateSessionWithSocketInfo = async ( socket_id, mTurkcode, role) => {
         // console.log('session update 합니다, 소켓, 엠터크 정보' )
-        await updateSessionToMongoDB({ socket_id: socket_id, mTurkNumber: mTurkcode, gameStarted: true, role: role})
+        // await updateSessionToMongoDB({ socket_id: socket_id, mTurkNumber: mTurkcode, gameStarted: true, role: role})
     }
 
     const connectToSocket = () => {
@@ -209,7 +209,7 @@ const Game = () => {
         }
 
         socket.on('joinedRoom', ({roomId, roomName, size}) => {
-            console.log('joined room id, name: ', roomId, roomName, size)
+            // console.log('joined room id, name: ', roomId, roomName, size)
             setClientCount(size)
             setGameState(prev => ({...prev, roomName: roomName}))
             // if (!location?.search.includes('g=')) {
@@ -222,14 +222,14 @@ const Game = () => {
         })
 
         socket.on('updateParticipants', (participants) => {
-            console.log(' updateParticipants, participants received: ', participants)
+            // console.log(' updateParticipants, participants received: ', participants)
             setGameState(prev => ({...prev, participants: participants}))
-            console.log('participants.length: ', participants.length)
+            // console.log('participants.length: ', participants.length)
             setClientCount(participants.length)
         })
 
         socket.on('participantsReady2', () => {
-            console.log('participantsReady2! ')
+            // console.log('participantsReady2! ')
             setParticipantsReady2(true)
         })
 
@@ -283,7 +283,7 @@ const Game = () => {
         })
 
         socket.on('secondWaitingRoomJoins', (users) => {
-            console.log('SecondWaitingRoomJoins: users.length ', users.users.length)
+            // console.log('SecondWaitingRoomJoins: users.length ', users.users.length)
             setCompletedUsers2(users.users.length)
         })
 
@@ -292,7 +292,7 @@ const Game = () => {
         })
 
         socket.on("roleSelected", (roleSelected, socketid, mTurkcodeGenerated) => {
-            console.log('roleSelected: ', mTurkcodeGenerated)
+            // console.log('roleSelected: ', mTurkcodeGenerated)
             if (socketid === socket.id) {
                 setRole((roleSelected))
                 setMTurkcode(mTurkcodeGenerated)
@@ -304,7 +304,7 @@ const Game = () => {
         socket.on('resultArrived', ({participants, roundIndex}) => {
 
             let choices = PLAYERSLIST.map(ele => ({...participants.find(participant => participant.role === ele.name)?.results[roundIndex], role: ele.name}))
-            console.log('choices resultArrived: ')
+            // console.log('choices resultArrived: ')
             setChoiceList(choices)
             setCount(prev => prev + 1)
         })
@@ -330,12 +330,12 @@ const Game = () => {
         }) 
 
         socket.on('finalResultTable', (room) => {
-            console.log('finalResultTable!!!!!!!!!!!!!!!: ')
+            // console.log('finalResultTable!!!!!!!!!!!!!!!: ')
             setShowFinalResultTable(true)
         }) 
 
         socket.on('finalResultTableEnd', (room) => {
-            console.log('finalResultTable END!!: ')
+            // console.log('finalResultTable END!!: ')
             setShowFinalResultTable(false)
         }) 
 
@@ -384,7 +384,7 @@ const Game = () => {
         })
 
          socket.on("showGameStop", (roomIndex) => {  
-            console.log('showGameStop, roomIndex: Game ', roomIndex)      
+            // console.log('showGameStop, roomIndex: Game ', roomIndex)      
           
 
             // if (roomIndex < 12) {

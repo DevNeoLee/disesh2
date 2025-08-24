@@ -14,7 +14,7 @@ const Home = () => {
   const [treat, setTreat] = useState('')
 
   const openPopUp = () => {
-    const url = `${HOST}welcome/?treat=${treat}`
+    const url = `${HOST}/welcome/?treat=${treat}`
     const options = 'height=10000,width=10000,toolbar=no,location=no,menubar=no,titlebar=no';
      window.open(url, '_self', options);
 

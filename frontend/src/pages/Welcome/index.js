@@ -58,19 +58,19 @@ const Welcome = () => {
 
     const handleProceed = async (treat) => {
         setProceeding(true)
-        await createSessionDB(treat)
-            .then(async data => {
-                console.log('Created Session succesfully in DB: ', data)
-                setSession(data);
-                await updateSessionWelcome(data.sessionStartTime, data._id)
-                setTimeTracker(prev => ({...prev, welcome: {...prev.welcome, endTime: data.sessionStartTime}}))
-                setProceeding(false)
-                navigate(`/instruction/?treat=${treat}&id=${data?._id}`)
-            })
-            .catch(error => {
-                console.log('error: ', error)
-                setProceeding(false)
-            })
+        // await createSessionDB(treat)
+        //     .then(async data => {
+        //         console.log('Created Session succesfully in DB: ', data)
+        //         setSession(data);
+        //         await updateSessionWelcome(data.sessionStartTime, data._id)
+        //         setTimeTracker(prev => ({...prev, welcome: {...prev.welcome, endTime: data.sessionStartTime}}))
+        //         setProceeding(false)
+                navigate(`/instruction/?treat=${treat}`)
+            // })
+            // .catch(error => {
+            //     console.log('error: ', error)
+            //     setProceeding(false)
+            // })
     }
 
     return (

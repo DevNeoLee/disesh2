@@ -155,7 +155,7 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
 
     useEffect(() => {
         if (totalGroupWater) {
-            console.log('totalGroupWater: extraScores: ', totalGroupWater, extraScores)
+            // console.log('totalGroupWater: extraScores: ', totalGroupWater, extraScores)
             setPv(currentWater - totalGroupWater)
             setRecharge(5);
             // setSurfaceWater(gameState.surfaceWaters[gameState.roundIndex - 11])
@@ -511,7 +511,7 @@ export const FinalResult = ({currentWater, showPracticeEndNotification, practice
 
     useEffect(() => {
         if (totalGroupWater) {
-            console.log('totalGroupWater: extraScores: ', totalGroupWater, extraScores)
+            console.log(': ', totalGroupWater, extraScores)
             setPv(currentWater - totalGroupWater)
             setRecharge(5);
         }

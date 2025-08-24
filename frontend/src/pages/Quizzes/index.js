@@ -117,14 +117,14 @@ export default function Quizzes() {
 
     const handleSubmit = async (url) => {
         setResult(prev => [...prev, { answers, yourScore, allCorrect}])
-        const update = await updateSessionToMongoDB()
-        if (update) {
+        // const update = await updateSessionToMongoDB()
+        // if (update) {
             setSubmitted(true);
             setPreviousAnswers(answers)
             setDone(pre => !pre)
-        } else {
-            console.log('error: Session Not Updated!')
-        }
+        // } else {
+        //     console.log('error: Session Not Updated!')
+        // }
     }
 
     const handleRetry = (e) => {
