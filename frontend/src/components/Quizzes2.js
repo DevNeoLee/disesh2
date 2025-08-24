@@ -97,15 +97,15 @@ export default function Quizzes2({setQuizSubmitted, setIsQuizDone, socket, gameS
     const handleSubmit = async (url) => {
         console.log('handleSubmit quiz2')
         setResult(prev => [...prev, { answers, yourScore, allCorrect}])
-        const update = await updateSessionToMongoDB()
+        // const update = await updateSessionToMongoDB()
         // console.log('update: ... ', update)
-        if (update) {
+        // if (update) {
             setDone(true);
             setSubmitted(true);
             setPreviousAnswers(answers)
-        } else {
-            console.log('error: Session Not Updated!')
-        }
+        // } else {
+        //     console.log('error: Session Not Updated!')
+        // }
     }
 
     const handleRetry = (e) => {

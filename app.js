@@ -1,5 +1,5 @@
-const path = require('path');
 const express = require("express");
+const path = require('path');
 const app = express();
 
 const http = require('http');
@@ -92,6 +92,7 @@ async function createNewRoom(treat) {
         participants: [],
         gameResults: [],
         roundTimer: null,
+        surfaceWaters: [4, 3, 3, 3, 3, 3, 3, 3, 3, 0],
         waitingRoomTimer: null,
         waitingRoom2Timer: null,
         resultTimer: null,
@@ -136,6 +137,15 @@ function getRole(room) {
     return role;
 }
 
+function getSurfaceWater(treat) {
+    switch(treat) {
+        case 'const':
+            return [4, 3, 3, 3, 3, 3, 3, 3, 3, 0]
+        default:
+            return [4, 3, 3, 3, 3, 3, 3, 3, 3, 0]
+    }
+}
+
 async function startGame (room) {
     //roles 다시 원상 복귀, 다음 게임 롤 설정을 위하여
     room.roles = ['Farmer1', 'Farmer2', 'Farmer3', 'Farmer4', 'Farmer5'];
@@ -143,6 +153,7 @@ async function startGame (room) {
     room.inGame = true;
     room.gameStartTime = new Date();
     room.gameStarted = true;
+    room.surfaceWater = getSurfaceWater(room.treat);
     // show particpants ready 
     io.in(room.roomName).emit('startGame', room);
     await updateGameToDB(room)
@@ -158,43 +169,42 @@ async function startGame (room) {
 }
 
 async function startRound(room) {
-    console.log('inside startRound function: ')
     if (room.resultTimer) {
-        console.log('cleared resultTimer in startRound')
+        // console.log('cleared resultTimer in startRound')
         clearInterval(room.resultTimer);
         room.resultTimer = null;
     }
 
     if (room.roundTimer) {
-        console.log('이게 아직도 있나요....cleared roundTimer in startToCountResultForAll')
+        // console.log('이게 아직도 있나요....cleared roundTimer in startToCountResultForAll')
 
         clearInterval(room.roundTimer)
         room.roundTimer = null;
     }
 
     if (room.waitingTimeout) {
-        console.log('cleared waitingTimeout in startRound')
+        // console.log('cleared waitingTimeout in startRound')
 
         clearTimeout(room.waitingTimeout);
         room.waitingTimeout = null;
     }
 
     if (room.waitingRoom2Timer) {
-        console.log('cleared waitingRoom2Timer in startRound')
+        // console.log('cleared waitingRoom2Timer in startRound')
 
         clearTimeout(room.waitingRoom2Timer);
         room.waitingRoom2Timer = null;
     }
 
     if (room.roleTimeout) {
-        console.log('cleared roleTimeout in startRound')
+        // console.log('cleared roleTimeout in startRound')
 
         clearTimeout(room.roleTimeout);
         room.roleTimeout = null;
     }
 
     if (room.resultTransitonTimeout) {
-        console.log('cleared resultTransitonTimeout in startRound')
+        // console.log('cleared resultTransitonTimeout in startRound')
 
         clearTimeout(room.resultTransitonTimeout);
         room.resultTransitonTimeout = null;
@@ -206,12 +216,12 @@ async function startRound(room) {
     // }
 
     if (room.roundTimer) {
-        console.log('cleared roundTimer in startRound')
+        // console.log('cleared roundTimer in startRound')
 
         clearInterval(room.roundTimer)
         room.roundTimer = null;
     }
-        console.log("아직 인게임 startRound: ", room?.roomName)
+        // console.log("아직 인게임 startRound: ", room?.roomName)
         room.state = 'roundInProgress';
 
         if (room.roundIndex == 12) {
@@ -421,7 +431,21 @@ function endRound(room) {
 
     // Stop the round timer
     clearInterval(room.roundTimer);
-    room.currentWater += 5;
+
+    if (room.roundIndex > 11) {
+        const surfaceWaterCurrent = room.surfaceWater[room.roundIndex - 12];
+        // console.log('surfaceWaterCurrent: ', surfaceWaterCurrent)
+        room.currentWater = room.currentWater + 5 + surfaceWaterCurrent;
+        // console.log('room.currentWater: ', room.currentWater)
+    } else {
+        console.log('surfaceWater room.roundIndex: ', room.roundIndex)
+        // room.currentWater = room.currentWater + 5;
+    }
+    // const surfaceWaterCurrent = room.surfaceWaters[room.roundIndex];
+    // console.log('surfaceWater room.roundIndex: ', room.roundIndex)
+    // room.currentWater = room.currentWater + 5 + surfaceWaterCurrent;
+    // console.log('surfaceWaterCurrent: ', surfaceWaterCurrent)
+
     room.previousWater = room.currentWater;
     
     room.resultDuration= 20;
@@ -436,15 +460,15 @@ function endRound(room) {
     // 다만 라운드인덱스가 11 혹 21 인 경우, 즉 마지막 라운드인경우는 정상종료로 처리 됩니다.
     if (room.previousWater < 15) {        
         if (room.roundIndex < 11) {
-         
+            console.log('room.previousWater at 15 mark: ', room.previousWater)
             room.isDepletedFirstPart = true;
             fixDataForSkippingRounds(room);
-            console.log('isDepletedFirstPart: ', room.isDepletedFirstPart)
+            // console.log('isDepletedFirstPart: ', room.isDepletedFirstPart)
             startGameStop(room);
         } else if (room.roundIndex < 21) {
 
             room.isDepletedSecondPart = true;
-            console.log('isDepletedSecondPart: ', room.isDepletedSecondPart)
+            // console.log('isDepletedSecondPart: ', room.isDepletedSecondPart)
             startGameStop(room);
         } else if (room.roundIndex == 21) {
             startGameStop(room);
@@ -607,7 +631,7 @@ const createGameToDB = async (data) => {
         const createdGame = await newGame.save();
         createdGame.roomName = createdGame._id + "_" + rooms.length;
 
-        console.log('createdGame: roomName', createdGame?.roomName);
+        // console.log('createdGame: roomName', createdGame?.roomName);
 
         // Update roomName with the generated _id after successful creation
         const updatedGame = await updateGameToDB(createdGame)
@@ -621,7 +645,7 @@ const createGameToDB = async (data) => {
 async function updateGameToDB(room) {
     try {
         const updatedGame = await Game.findByIdAndUpdate(room._id, room, { new: true });
-        console.log("Updated game to MongoDB through API", updatedGame?._id);
+        // console.log("Updated game to MongoDB through API", updatedGame?._id);
         return updatedGame;
     } catch (err) {
         console.error(err);
@@ -629,13 +653,11 @@ async function updateGameToDB(room) {
 }
 
 function startGameStop(room) {
-    console.log('room.roundIndex: part1, part2: ', room.roundIndex, room.isDepletedFirstPart, room.isDepletedSecondPart)
+    // console.log('room.roundIndex: part1, part2: ', room.roundIndex, room.isDepletedFirstPart, room.isDepletedSecondPart)
 
     //depletion message to Front End
     if (room.isDepletedFirstPart && room.roundIndex < 11) {
-           console.log('222: ');
         io.in(room.roomName).emit('depletion', 'first', room.roundIndex);
-           console.log('333: ');
     } else if (room.isDepletedSecondPart && room.roundIndex > 11 && room.roundIndex < 21) {
         io.in(room.roomName).emit('depletion', 'second', room.roundIndex);
     }
@@ -723,7 +745,7 @@ function getMturkcode(socketid, time) {
     const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
     const day = String(today.getDate()).padStart(2, '0');
     
-    console.log(`${year}${month}${day}_${socketid}_b`)
+    // console.log(`${year}${month}${day}_${socketid}_b`)
     return `${year}${month}${day}_${socketid}_b`;
 }
 
@@ -748,7 +770,7 @@ io.on("connection", socket => {
         if (roomIndex !== -1) {
             // 방에 정원이 다 찾는데 그리고 게임이 아직 시작된 상태가 아니면
           if (room.participants?.length === MAX_PARTICIPANTS_PER_ROOM - 1 && !room.inGame) {
-              console.log('creating New Game...')
+            //   console.log('creating New Game...')
             if (room.waitingRoomTimer) {
                 clearTimeout(room.waitingRoomTimer);
                 room.waitingRoomTimer = null;
@@ -789,10 +811,10 @@ io.on("connection", socket => {
                 io.in(newRoom.roomName).emit('waitingRoomTime', newRoom.waitingRoomTime);
             
                 if (newRoom.waitingRoomTime == 0) {
-                    console.log('room waiting time expired!')
+                    // console.log('room waiting time expired!')
                 }
             }, 1000);
-            console.log('newRome from create/join: ', newRoom)
+            // console.log('newRome from create/join: ', newRoom)
         }
     })
 
@@ -811,7 +833,7 @@ io.on("connection", socket => {
     })
 
     socket.on("decisionNotice", async ({room_name, player_id, choice}) => {
-        console.log('decisionNotice receiving from client to server: ', room_name, player_id, choice)
+        // console.log('decisionNotice receiving from client to server: ', room_name, player_id, choice)
 
         const roomFound = rooms.find((room) => room.roomName == room_name)
         // console.log('roomFound decisionNotice: ', roomFound)
@@ -852,10 +874,10 @@ io.on("connection", socket => {
             let currentWater;
             
             if (roundIndex == 21) {
-                console.log('roundIndex 22', previousWater, roundIndex)
+                // console.log('roundIndex 22', previousWater, roundIndex)
                 currentWater = previousWater - totalGroupWaterUsed;
             } else {
-                console.log('not 22', previousWater, roundIndex)
+                // console.log('not 22', previousWater, roundIndex)
                 currentWater = previousWater - totalGroupWaterUsed + 5;
             }
 
@@ -898,7 +920,7 @@ io.on("connection", socket => {
             }
 
             roomFound.currentWater = roomFound.currentWater - totalGroupWater;
-            console.log('1 updatedSortedResult: ', updatedSortedResult)
+            // console.log('1 updatedSortedResult: ', updatedSortedResult)
             //game state update
             roomFound.gameResults.push({roundIndex, round, updatedSortedResult, totalGroupWater: totalGroupWater})
 
@@ -919,8 +941,8 @@ io.on("connection", socket => {
     })
 
     socket.on("disconnecting", () => {
-        console.log("someone leaving the room", socket.id)
-        console.log('rooms from disconnecting: ', rooms.map(room => room.roomName))
+        // console.log("someone leaving the room", socket.id)
+        // console.log('rooms from disconnecting: ', rooms.map(room => room.roomName))
 
         // rooms.forEach((room, roomId) => {
         //     const participantIndex = room.participants.forEach((ele, i) => {
@@ -982,7 +1004,7 @@ io.on("connection", socket => {
 
     socket.on("norman_chat", (data) => {
         let room = io.sockets.adapter.rooms.get('1')
-        console.log('chat content from Norman: ', data)
+        // console.log('chat content from Norman: ', data)
         socket.broadcast.to('1').emit('norman_chat', data)
     })
 
@@ -992,7 +1014,7 @@ io.on("connection", socket => {
     })
 
     socket.on("user_left_frontend", () => {
-        console.log('user_left_frontend received from backend!')
+        // console.log('user_left_frontend received from backend!')
 
         // console.log('io.engine.clientsCount!: ', io.engine.clientsCount) // 현재 몇명 접속
     })
@@ -1025,30 +1047,30 @@ io.on("connection", socket => {
     });
 
     socket.on('participantLeft', async (roomName) => {
-        console.log('participantLeft: roomName, roleID: ', roomName )
+        // console.log('participantLeft: roomName, roleID: ', roomName )
 
         const room = rooms.find(room => room.roomName === roomName);
 
         if (room) {
-            console.log('== 한분 나가셨습니다. 지금 room 의 상황 : ', room.state, room.roundIndex < 3)
+            // console.log('== 한분 나가셨습니다. 지금 room 의 상황 : ', room.state, room.roundIndex < 3)
 
             const participantWentOut = room.participants?.find(participant =>participant.socket_id === socket.id)
             const participantsRest = room.participants?.filter(participant =>participant.socket_id !== socket.id)
-            console.log('participantWentOut: ', participantWentOut)
+            // console.log('participantWentOut: ', participantWentOut)
             // console.log('participantsRest: ', participantsRest)
             
             
             if (room.state == 'waiting') {
-                console.log('== 아직 waiting room...: ')
-                console.log('room.participants: ')
+                // console.log('== 아직 waiting room...: ')
+                // console.log('room.participants: ')
                 //add back roles available list to the room
                 const availableRole = room.participants?.find(participant =>participant.socket_id === socket.id).role
-                console.log('availableRole: ', availableRole)
+                // console.log('availableRole: ', availableRole)
                 room.roles = [...room.roles, availableRole]
              
                 // Remove the participant from the room
                 room.participants = room.participants?.filter(participant => participant.socket_id !== socket.id);
-                console.log('rooms after: ', rooms)
+                // console.log('rooms after: ', rooms)
                 // console.log('room.participants: ', room.participants)
                 // Notify other players in the room about the updated player list
                 io.to(roomName).emit('updateParticipants', room.participants);
@@ -1059,7 +1081,7 @@ io.on("connection", socket => {
                 // 나간 사람의 소켓을 끊어냅니다.
                 const socketWhoLeft = io.sockets.sockets.get(socket.id);
                 if (socketWhoLeft) {
-                    console.log(' 나간 사람의 소켓을 끊어냅니다.')
+                    // console.log(' 나간 사람의 소켓을 끊어냅니다.')
 
                     socketWhoLeft.disconnect();
                 }
@@ -1068,7 +1090,7 @@ io.on("connection", socket => {
                 if (room.participants.length === 0) {
                     rooms = rooms.filter(ele => ele.roomName !== roomName);
                 }
-                console.log('========= 아직 웨이팅 룸 =============: ', rooms)
+                // console.log('========= 아직 웨이팅 룸 =============: ', rooms)
             } else if ( room.state == 'roundInProgress' && room.roundIndex <= 1) {
       
 
@@ -1098,7 +1120,7 @@ io.on("connection", socket => {
                 // 나간 사람의 소켓을 끊어냅니다.
                 const socketWhoLeft = io.sockets.sockets.get(socket.id);
                 if (socketWhoLeft) {
-                         console.log(' 나간 사람의 소켓을 끊어냅니다.')
+                        //  console.log(' 나간 사람의 소켓을 끊어냅니다.')
 
                     socketWhoLeft.disconnect();
                 }
@@ -1106,7 +1128,7 @@ io.on("connection", socket => {
                 //방 목록에서 이 방을 지웁니다. 
                 rooms = rooms.filter(ele => ele.roomName !== roomName);
 
-                console.log('========= 다시 웨이팅 룸 =============: 남은방들: ', rooms)
+                // console.log('========= 다시 웨이팅 룸 =============: 남은방들: ', rooms)
             } else if ( (room.state == 'roundInProgress' && room.roundIndex > 1 && room.roundIndex < 21) || (room.state == 'roundInProgress' && room.roundIndex == 21 && room.resultDuration == 20) || room.state == 'secondInstruction') {
                 console.log("-- 게임도중 끝났음으로: round: 끝냅니다. 게임도 끝나고, 방은 폭발", room.roundIndex, )
 
@@ -1142,10 +1164,10 @@ io.on("connection", socket => {
 
                 //방 목록에서 이 방을 지웁니다. 
                 rooms = rooms.filter(ele => ele.roomName !== roomName);
-                console.log('남은 방들 rooms: ', rooms)
-                console.log('========= 이제 gamePrematureOver ===========남은 방들 rooms: ', rooms)
+                // console.log('남은 방들 rooms: ', rooms)
+                // console.log('========= 이제 gamePrematureOver ===========남은 방들 rooms: ', rooms)
             } else if ( room.state == 'roundInProgress' && room.roundIndex == 21 && room.resultDuration < 20) {
-                console.log("-- 게임22라운드 다 마친후, result화면에서 나간경우 입니다. 게임만 끝나고, 나갔다는 메세지는 안보내도 됩니다.", room.roundIndex, )
+                // console.log("-- 게임22라운드 다 마친후, result화면에서 나간경우 입니다. 게임만 끝나고, 나갔다는 메세지는 안보내도 됩니다.", room.roundIndex, )
 
                 // Leave the room in Socket.io 한 사람 나갔고 4명 남음.
                 socket.leave(roomName);
@@ -1176,19 +1198,19 @@ io.on("connection", socket => {
 
                 //방 목록에서 이 방을 지웁니다. 
                 rooms = rooms.filter(ele => ele.roomName !== roomName);
-                console.log('남은 방들 rooms: ', rooms)
-                console.log('========= 이제 gamePrematureOver ===========남은 방들 rooms: ', rooms)
+                // console.log('남은 방들 rooms: ', rooms)
+                // console.log('========= 이제 gamePrematureOver ===========남은 방들 rooms: ', rooms)
             }
         }
     });
 
     socket.on('participantNotResponded', async ({room_name, player_id}) => {
-        console.log('participantNotResponded: roomName, roleID: ', room_name, player_id)
+        // console.log('participantNotResponded: roomName, roleID: ', room_name, player_id)
 
         const room = rooms.find(room => room.roomName === room_name);
 
         if (room) {
-            console.log(`== 라운드 ${room.roundIndex} 에서 시간 초과가 발생했습니다. : `, room.state, room.roundIndex < 3)
+            // console.log(`== 라운드 ${room.roundIndex} 에서 시간 초과가 발생했습니다. : `, room.state, room.roundIndex < 3)
 
             const participantNotResponded = room.participants?.find(participant =>participant.socket_id === socket.id)
             const participantsRest = room.participants?.filter(participant =>participant.socket_id !== socket.id)
@@ -1228,14 +1250,14 @@ io.on("connection", socket => {
             // 나간 사람의 소켓을 끊어냅니다.
             const socketWhoLeft = io.sockets.sockets.get(socket.id);
             if (socketWhoLeft) {
-                     console.log(' 나간 사람의 소켓을 끊어냅니다.')
+                    //  console.log(' 나간 사람의 소켓을 끊어냅니다.')
                 socketWhoLeft.disconnect();
             }
 
             //깨졌음으로 방을 없앱니다. Remove the room
             rooms = rooms.filter(ele => ele.roomName !== room_name);
 
-            console.log('========= 반응 없어서 쫓겨남 =============: 남은방들: ', rooms)
+            // console.log('========= 반응 없어서 쫓겨남 =============: 남은방들: ', rooms)
 
             socket.leave(room_name);
         

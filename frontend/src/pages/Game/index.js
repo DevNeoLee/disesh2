@@ -107,6 +107,7 @@ const Game = () => {
         roundTimer: null,
         roundDuration: 60,
         roundIndex: 0, 
+        surfaceWaters: [4, 3, 3, 3, 3, 3, 3, 3, 3, 0],
         currentRound: "",
         previousWater: 60,
         currentWater: 60,
@@ -528,7 +529,7 @@ const Game = () => {
 
     return (
         <GameContext.Provider value={{ role, gameState, setGameState, choice, setChoice, socket, currentRound, choiceList, setChoiceList, totalGroupWater, setTotalGroupWater, extraScores, showFinalResultTable, setShowFinalResultTable, finalScores, showGameStop, setShowGameStop, gameStopDuration, waitingRoom2Time, notifyParticipantNotResponded, notifyParticipantLeft}}>
-            {/* <Round roundTimer={roundTimer} roundEnd={roundEnd} currentRound={currentRound} currentWater={currentWater} now={now} setNow={setNow} count={count} resultDuration={resultDuration} /> */}
+            {/* <Round roundTimer={roundTimer} roundEnd={roundEnd} currentRound={currentRound} currentWater={currentWater} count={count} resultDuration={resultDuration} /> */}
             {/* <SecondInstructionStage roundTimer={roundTimer} participantsReady2={participantsReady2} completedUser2={completedUser2} treat={gameState.treat} />  */}
         
             {

@@ -14,8 +14,9 @@
 
 .leftInside {
     /* background-color: lightcyan; */
+    padding-top: 40px;
     width: 540px;
-    height: 300px;
+    height: 329px;
     position: relative;
 }
 
@@ -312,8 +313,10 @@
  }
 
  .rightResultContainer {
+    padding-top: 60px;
     font-size: 18px;
     margin-left: 30px;
+    /* background-color: lightgreen; */
  }
 
 .playerContainer {
@@ -351,11 +354,10 @@
 
 .redLine {
     width: 480px;
-    border-bottom: 2px dashed #a6182d;
     border-bottom: 2px dashed black;
     position: absolute;
     left: 60px;
-    bottom: 91px ;
+    bottom: 49px ;
     z-index: 0;
     animation: blinker 2.5s linear infinite;
     /* transition: 500ms ease-in-out; */

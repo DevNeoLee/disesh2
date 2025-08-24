@@ -125,9 +125,18 @@ export const FarmersDecision = () => {
                                     </Form>
                             </div> 
                         </div>
-                        <div style={{ position: "absolute", right: "5px", top: "0px", zIndex: -300}}>
-                            <img src="/gr.png" width="450px"/>
-                        </div>
+                        {
+                            gameState.roundIndex > 11 
+                            ?
+                            <div style={{ position: "absolute", right: "5px", top: "0px", zIndex: -300}}>
+                                <img src="/gr_su.png" width="450px"/>
+                            </div>
+                            :
+                            <div style={{ position: "absolute", right: "5px", top: "0px", zIndex: -300}}>
+                                <img src="/gr.png" width="450px"/>
+                            </div>
+                        }
+                        
                     </div>
                 </div>
             </div>
@@ -141,6 +150,7 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
     const [tokensAllocated, setTokensAllocated] = useState([{user1: null}, {user2: null}, {user3: null}, {user4: null}, {provider: null}])
 
     const [pv, setPv] = useState(0);
+    const [surfaceWater, setSurfaceWater] = useState(0);
     const [recharge, setRecharge] = useState(0);
 
     useEffect(() => {
@@ -148,6 +158,8 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
             console.log('totalGroupWater: extraScores: ', totalGroupWater, extraScores)
             setPv(currentWater - totalGroupWater)
             setRecharge(5);
+            // setSurfaceWater(gameState.surfaceWaters[gameState.roundIndex - 11])
+            setSurfaceWater(gameState.surfaceWaters[gameState.roundIndex - 12])
         }
     }, [totalGroupWater])
 
@@ -156,6 +168,10 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
         setRecharge(0)
         setTotalGroupWater(0)
     }, [currentRound])
+
+    // useEffect(() => {
+    //     console.log('surfaceWater: ', surfaceWater)
+    // }, [surfaceWater])
 
 
     const data = [
@@ -226,6 +242,15 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
         </Popover>
       );
 
+     const surfaceWaterRecharge = (
+        <Popover id="popover-basic">
+          <Popover.Header as="h3">SurfaceWater Recharge</Popover.Header>
+          <Popover.Body>
+            {surfaceWater}
+          </Popover.Body>
+        </Popover>
+      );
+
     return (
         <div className={styles.mainResult}>
             <div className={`${styles.hoverSuggestion}`}><p>* Please hover your mouse over each bar in the plot to see more detailed information.</p></div>
@@ -233,25 +258,24 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
                 <div className={styles.leftInside}>
                     <div className={styles.graphTitle}>
                         <h2>Groundwater Level </h2>
-
                     </div>
                     {/* remaining water */}
                     <OverlayTrigger trigger={['hover', 'focus']}  placement="bottom" overlay={popoverRemainingWater} style={{ zIndex: "30013"}}>
                         <div style={{ 
-                              color: "white", height: `calc(${ 173 * gameState.previousWater / 60}px)`, backgroundColor: "#0065ff", width: "81px", bottom: "50px", left: "100px", position: "absolute", zIndex: "1000", transition: "500ms"
+                              color: "white", height: `calc(${ 202 * gameState.previousWater / 60}px)`, backgroundColor: "#0065ff", width: "81px", bottom: "0px", left: "100px", position: "absolute", zIndex: "1000", transition: "500ms"
                         }}><div style={{ textAlign: "center", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>{gameState.previousWater} units</div></div>
                     </OverlayTrigger>
                     {/* water consumption total Base*/}
                     <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={popoverConsumptionTotalBase} style={{ zIndex: "30013"}}>
                         <div style={{ 
-                            color: "white", height: totalGroupWater ? `calc(${173 * (gameState.previousWater - totalGroupWater) / 60}px)` : 0, backgroundColor: "#0065ff", width: "81px", bottom: "50px", left: "260px", position: "absolute", zIndex: "1000", transition: "500ms"
+                            color: "white", height: totalGroupWater ? `calc(${202 * (gameState.previousWater - totalGroupWater) / 60}px)` : 0, backgroundColor: "#0065ff", width: "81px", bottom: "0px", left: "260px", position: "absolute", zIndex: "1000", transition: "500ms"
                         }}><div style={{ textAlign: "center", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>{totalGroupWater ? gameState.previousWater - totalGroupWater: null} {totalGroupWater ? "units" : null}</div> </div>
                     </OverlayTrigger>
 
                     {/* water consumption total Top*/}
                     <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={popoverConsumptionTotalTop} style={{ zIndex: "30013"}}>
                         <div style={{ 
-                            color: "#a6182d", height: totalGroupWater ? `calc(${173 * (totalGroupWater) / 60}px)` : 0, border: totalGroupWater ? "2px dotted #a6182d" : null, backgroundColor: "null", width: "81px", bottom: `calc(${(173 * (gameState.previousWater - totalGroupWater ) / 60) + 50}px)`, transition: "500ms",left: "260px", position: "absolute", zIndex: "1000"
+                            color: "#a6182d", height: totalGroupWater ? `calc(${202 * (totalGroupWater) / 60}px)` : 0, border: totalGroupWater ? "2px dotted #a6182d" : null, backgroundColor: "null", width: "81px", bottom: `calc(${(202 * (gameState.previousWater - totalGroupWater ) / 60)}px)`, transition: "500ms",left: "260px", position: "absolute", zIndex: "1000"
                         }}>
                             <div style={{ textAlign: "center", width: totalGroupWater > 9 ? "100%" : "100px", lineHeight: "15px", position: "absolute", right:totalGroupWater > 9 ? "0px": "-11px", bottom: totalGroupWater > 9 ? "0px" : "20px", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                 {totalGroupWater ? totalGroupWater : null} {totalGroupWater ? "units Used" : null}
@@ -262,9 +286,26 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
                     {/* recharged current water Base*/}
                     <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={rechargedCurrentWaterBase} style={{ zIndex: "30013"}}>
                         <div style={{ 
-                              color: "white", height: totalGroupWater ? `calc(${173 * (gameState.previousWater - totalGroupWater) / 60}px)` : 0, backgroundColor: "#0065ff", width: "81px", bottom: "50px", left: "417px", position: "absolute", zIndex: "1000", transition: "500ms",
+                              color: "white", height: totalGroupWater ? `calc(${202 * (gameState.previousWater - totalGroupWater) / 60}px)` : 0, backgroundColor: "#0065ff", width: "81px", bottom: "0px", left: "417px", position: "absolute", zIndex: "1000", transition: "500ms",
                         }}> <div style={{ textAlign: "center", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>{totalGroupWater ? gameState.previousWater - totalGroupWater: null} {totalGroupWater ? "units" : null}</div></div>
                     </OverlayTrigger>
+
+                    {/* surfaceWater*/}
+                    {
+                        (gameState.roundIndex > 11)
+                        &&
+                        <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={surfaceWaterRecharge} style={{ zIndex: "30013"}}>
+                            <div style={{ 
+                                color: "black", height: totalGroupWater ? `calc(${202 * surfaceWater / 60}px)` : 0, backgroundColor: "lightgreen", width: "81px", bottom: `calc(${(202 * (gameState.previousWater - totalGroupWater + 5) / 60) }px)`, left: "417px", position: "absolute", zIndex: "1000", transition: "500ms",
+                            }}> <div style={{ textAlign: "center", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>{totalGroupWater ? surfaceWater: null} {totalGroupWater ? "units" : null}</div></div>
+                        </OverlayTrigger>
+                  
+                        //  <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={surfaceWaterRecharge} style={{ zIndex: "30013"}}>
+                        //     <div style={{ 
+                        //         color: "white", height: totalGroupWater ? `calc(${202 * 4 / 60}px)` : 0, backgroundColor: "lightgreen", width: "81px", bottom: `calc(${(202 * (gameState.previousWater - totalGroupWater ) / 60) + 55 + 4}px)`, left: "417px", position: "absolute", zIndex: "1000", transition: "500ms",
+                        //     }}> <div style={{ textAlign: "center", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>{totalGroupWater ? 4: null} {totalGroupWater ? "units" : null}</div></div>
+                        // </OverlayTrigger>
+                    }
 
                     {/* recharge water : 5 units, Top */}
                     {
@@ -274,15 +315,15 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
                         :
                         <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={rechargeWater} style={{ zIndex: "30013"}}>
                             <div style={{ 
-                                color: "white", height: totalGroupWater ?  `calc(${173 * 5 / 60}px)` : 0, backgroundColor: "lightblue", width: "81px", bottom: `calc(${(173 * (gameState.previousWater - totalGroupWater ) / 60) + 50}px)`, left: "417px", position: "absolute", zIndex: "1000", transition: "500ms",
+                                color: "white", height: totalGroupWater ?  `calc(${202 * 5 / 60}px)` : 0, backgroundColor: "lightblue", width: "81px", bottom: `calc(${(202 * (gameState.previousWater - totalGroupWater ) / 60)}px)`, left: "417px", position: "absolute", zIndex: "1000", transition: "500ms",
                             }}><div style={{ textAlign: "center", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", justifyContent: "center"}}>{totalGroupWater ? 5 : null} {totalGroupWater ? "units" : null}</div></div>
                         </OverlayTrigger>
                     }
 
                     {/* Red Line, indicator depletion water point, 15 */}
                         <>
-                            <div style={{ color: "black", fontSize: "1.1rem", position: "absolute", left: "545px", bottom: "79px", zIndex: "0"}}>15</div>
-                            <div className={styles.blinker} style={{ color: "#444", fontSize: "0.9rem", position: "absolute", left: "314px", bottom: "67px", zIndex: "1001", letterSpacing: "2px"}}>Critical Depletion Point</div>
+                            <div style={{ color: "black", fontSize: "1.1rem", position: "absolute", left: "545px", bottom: "38px", zIndex: "0"}}>15</div>
+                            <div className={styles.blinker} style={{ color: "#444", fontSize: "0.9rem", position: "absolute", left: "314px", bottom: "27px", zIndex: "1001", letterSpacing: "2px"}}>Critical Depletion Point</div>
                             <div className={styles.redLine}></div>
                         </>
 
@@ -309,16 +350,16 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
                         :
                         null
                     }
-                    <ResponsiveContainer width="100%" height={300}>
+                    <ResponsiveContainer width="100%" height={360}>
                         <BarChart
                         width={100}
-                        height={600}
+                        height={800}
                         data={data}
                         margin={{
                             top: 20,
                             right:0,
                             left: 0,
-                            bottom: 20,
+                            bottom: 40,
                         }}
                         >
                             {/* <CartesianGrid strokeDasharray="3 3" /> */}
@@ -329,8 +370,6 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
                             <Line type="monotone" dataKey="line" stroke="#0095FF" />
                             <Area type="monotone" dataKey="pv" stroke="#82ca9d" fill="#82ca9d" /> */}
                         </BarChart>
-                            <div style={{ left: "54px", bottom: "223px", backgroundColor: "white", width: "10px", height: "59px", position: "absolute"}}></div>
-                            <div style={{ left: "31px", bottom: "268px", backgroundColor: "white", width: "22px", height: "22px", position: "absolute"}}></div>
                     </ResponsiveContainer>
                 </div>  
             </div>
@@ -370,7 +409,7 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
                             <tr style={{border: role == "Farmer2"  ? "3px solid #0065ff" : "null", borderTop: role == "Farmer2" ? "3px solid #0065ff" : "null", color: "#0065ff"}}>
                                 <td >
                                     <div className={styles.playerContainer}>
-                                    Farmer 2{role == "Farmer2" ? <span className={styles.playerContainerRole}> (You)</span>: null}
+                                        Farmer 2{role == "Farmer2" ? <span className={styles.playerContainerRole}> (You)</span>: null}
                                     </div>
                                 </td>
                                 <td >
@@ -389,8 +428,8 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
                    
                             <tr style={{border: role == "Farmer3"  ? "3px solid #0065ff" : "null", borderTop: role == "Farmer3" ? "3px solid #0065ff" : "null"}}>
                                 <td >                                
-        <div className={styles.playerContainer}>
-                                    Farmer 3{role == "Farmer3" ? <span className={styles.playerContainerRole}> (You)</span>: null}
+                                    <div className={styles.playerContainer}>
+                                        Farmer 3{role == "Farmer3" ? <span className={styles.playerContainerRole}> (You)</span>: null}
                                     </div>
                                 </td>
                                 <td >        
@@ -410,7 +449,7 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
                             <tr style={{border: role == "Farmer4"  ? "3px solid #0065ff" : "null", borderTop: role == "Farmer4" ? "3px solid #0065ff" : "null"}}>
                                 <td >        
                                     <div className={styles.playerContainer}>
-                                    Farmer 4{role == "Farmer4" ? <span className={styles.playerContainerRole} > (You)</span>: null}
+                                        Farmer 4{role == "Farmer4" ? <span className={styles.playerContainerRole} > (You)</span>: null}
                                     </div>
                                 </td>
                                 <td >      
@@ -430,7 +469,7 @@ export const Result = ({currentWater, showPracticeEndNotification, practiceEndDu
                             <tr style={{border: role == "Farmer5"  ? "3px solid #0065ff" : "null", borderTop: role == "Farmer5" ? "3px solid #0065ff" : "null"}}>
                                 <td >      
                                     <div className={styles.playerContainer}>
-                                    Farmer 5{role == "Farmer5" ? <span className={styles.playerContainerRole}> (You)</span>: null}
+                                        Farmer 5{role == "Farmer5" ? <span className={styles.playerContainerRole}> (You)</span>: null}
                                     </div>
                                 </td>
                                 <td >   

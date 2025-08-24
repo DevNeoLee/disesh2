@@ -24,6 +24,7 @@ const GameSchema = new Schema({
   rounds: [],
   currentRound: String,
   totalRounds: Number,
+  surfaceWaters: [],
   roles: [],
   isDepletedFirstRound: Boolean,
   isDepletedSecondRound: Boolean,

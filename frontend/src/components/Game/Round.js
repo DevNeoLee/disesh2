@@ -20,18 +20,17 @@ const Round = ({ roundTimer, roundEnd, currentRound, currentWater, resultDuratio
     const { notifyParticipantNotResponded, role, gameState, session, setGameState, choice, setChoice, socket, setTotalGroupWater, scores, setChoiceList, choiceList, extraScores, showFinalResultTable, finalScores, showGameStop} = useContext(GameContext);
     const myExtraScore = extraScores[Number(role.slice(6,7)) - 1];
 
-
     useEffect(() => {
         if (choice) {
             setError(false)
-            console.log('choice changed: ', choice)
+            // console.log('choice changed: ', choice)
         };
     }, [choice])
 
     useEffect(() => {
         const myChoice = choiceList.find(choice => choice.role == role);
-        console.log('choiceList: ', choiceList, session)
-        console.log('myChoice: ', myChoice)
+        // console.log('choiceList: ', choiceList, session)
+        // console.log('myChoice: ', myChoice)
         setMyScore(myChoice?.totalScore)
     }, [choiceList])
     
@@ -42,7 +41,7 @@ const Round = ({ roundTimer, roundEnd, currentRound, currentWater, resultDuratio
             setChoice('')
         } else {
             setChoiceList([[], [], [], [], []])
-            console.log('gameState when 준비할때, ', gameState)
+            // console.log('gameState when 준비할때, ', gameState)
             setGame(true);
         }
     }, [roundEnd])
@@ -50,7 +49,7 @@ const Round = ({ roundTimer, roundEnd, currentRound, currentWater, resultDuratio
     useEffect(() => {
         const myChoice = choiceList.find(choice => choice.role == role)
         if (roundTimer == 0 && !myChoice?.choice) {
-            console.log('roundTimer is up! : ', roundTimer)
+            // console.log('roundTimer is up! : ', roundTimer)
             // 시간이 다 했을경우 게임이 끝납니다.
             notifyParticipantNotResponded({room_name: gameState?.roomName, player_id: socket.id})
             setGame(false)
@@ -70,8 +69,8 @@ const Round = ({ roundTimer, roundEnd, currentRound, currentWater, resultDuratio
 
 
         const getMyFinalTokens = (finalScores, extraScores) => {
-            console.log('finalScores, extraScores: getMyFinalTokens:', finalScores, extraScores)
-            console.log('role: getMyFinalTokens: ', role)
+            // console.log('finalScores, extraScores: getMyFinalTokens:', finalScores, extraScores)
+            // console.log('role: getMyFinalTokens: ', role)
             const myFinalScore = finalScores[Number(role.slice(6,7)) - 1];
             const myExtraScore = extraScores[Number(role.slice(6,7)) - 1];
     
