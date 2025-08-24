@@ -97,7 +97,7 @@ const Welcome = () => {
                             environment === "development"
                             ?
                             <ReCAPTCHA
-                                sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                                sitekey="6LefQLArAAAAAI9lxAKEUBsxWbjCDuiE6T3p2ISr"
                                 onChange={handleChange}
                             />
                             :
