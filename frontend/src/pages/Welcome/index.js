@@ -102,7 +102,7 @@ const Welcome = () => {
                             />
                             :
                             <ReCAPTCHA      
-                                sitekey="6Lcm50QqAAAAAOh0q0yEpdwtB8CQHiGvkCdY1OTZ"
+                                sitekey="6LdXP7ArAAAAABDciJJy1m8ckbyLOqU098Ipjyv9"
                                 onChange={handleChange}
                             />
                         }
