@@ -97,12 +97,12 @@ const Welcome = () => {
                             environment === "development"
                             ?
                             <ReCAPTCHA
-                                sitekey="6LefQLArAAAAAI9lxAKEUBsxWbjCDuiE6T3p2ISr"
+                                sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
                                 onChange={handleChange}
                             />
                             :
                             <ReCAPTCHA      
-                                sitekey="6LdXP7ArAAAAABDciJJy1m8ckbyLOqU098Ipjyv9"
+                                sitekey="6LefQLArAAAAAI9lxAKEUBsxWbjCDuiE6T3p2ISr"
                                 onChange={handleChange}
                             />
                         }
